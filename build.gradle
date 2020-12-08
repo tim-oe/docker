@@ -1,0 +1,36 @@
+plugins {
+     // launch db docker container
+    id "com.avast.gradle.docker-compose" version "0.13.3"
+}
+
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
+}
+
+/**
+ * https://github.com/avast/gradle-docker-compose-plugin
+ * see nested config
+ */
+dockerCompose {
+ //   sonar {
+ //       useComposeFiles = ['sonar-docker-compose.yml']
+//    }
+
+    mariadb {
+        useComposeFiles = ['db/mariadb-docker-compose.yml']
+    }
+
+    mysql {
+        useComposeFiles = ['db/mysql-docker-compose.yml']
+    }
+
+    mongo {
+        useComposeFiles = ['db/mongo-docker-compose.yml']
+    }
+}

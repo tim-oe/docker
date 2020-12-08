@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  db:
+    image: mysql:5.7.32
+    volumes:
+      - ~/.docker/data/mysql/:/var/lib/mysql/
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--silent", "--password=root"]
+      interval: 1m30s
+      timeout: 60s
+      retries: 6

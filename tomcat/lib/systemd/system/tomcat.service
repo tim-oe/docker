@@ -1,0 +1,26 @@
+[Unit]
+Description=Tomcat
+After=syslog.target network.target
+
+[Service]
+Type=forking
+
+User=tomcat
+Group=tomcat
+
+WorkingDirectory=/var/tomcat
+
+Environment="CATALINA_PID=/var/tomcat/run/tomcat.pid"
+Environment="CATALINA_BASE=/var/tomcat/"
+Environment="CATALINA_HOME=/opt/tomcat/"
+# TODO determine proper mem settings
+Environment="CATALINA_OPTS=-Xms512M -Xmx1024M"
+
+ExecStart=/opt/tomcat/bin/startup.sh
+ExecStop=/opt/tomcat/bin/shutdown.sh
+
+#RestartSec=10
+#Restart=always
+
+[Install]
+WantedBy=multi-user.target

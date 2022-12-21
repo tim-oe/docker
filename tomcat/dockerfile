@@ -1,0 +1,49 @@
+FROM ubuntu:20.04
+
+LABEL maintainer="oe eng"
+LABEL version="0.1"
+LABEL description="ubuntu jdk8 tomcat7 "
+
+RUN apt update
+RUN apt install -y openjdk-8-jdk xvfb imagemagick unzip bzip2
+
+COPY ./bits/apache-tomcat-7.0.109.tar.gz /opt
+COPY ./bits/phantomjs-2.1.1-linux-x86_64.tar.bz2 /opt
+COPY ./bits/slimerjs-1.0.0.zip /opt
+COPY ./bits/firefox-59.0.1.tar.bz2 /opt
+# COPY ./lib/systemd/system/tomcat.service /lib/systemd/system/
+
+RUN tar xvf /opt/apache-tomcat-7.0.109.tar.gz -C /opt \
+  && ln -s /opt/apache-tomcat-7.0.109 /opt/tomcat \
+  && rm -fv /opt/apache-tomcat-7.0.109.zip
+
+RUN tar xvf /opt/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C /opt \
+  && ln -s /opt/phantomjs-2.1.1-linux-x86_64 /opt/phantomjs \
+  && rm -fv /opt/phantomjs-2.1.1-linux-x86_64.tar.bz2
+
+RUN unzip -d /opt /opt/slimerjs-1.0.0.zip \
+  && ln -s /opt/slimerjs-1.0.0 /opt/slimerjs \
+  && rm -fv /opt/slimerjs-1.0.0.zip
+
+RUN tar xvf /opt/firefox-59.0.1.tar.bz2 -C /opt \
+  && rm -fv /opt/firefox-59.0.1.tar.bz2
+
+# TODO how to run tomcat???
+#RUN systemctl enable tomcat.service
+
+ENV PATH="${PATH}:/opt/slimerjs:/opt/phatomjs/bin:/opt/firefox"
+# TODO determine folder
+ENV JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+ENV JAVA_OPTS="-Dfile.encoding=UTF-8 -Duser.timezone=GMT -XX:+UseParallelGC -XX:-OmitStackTraceInFastThrow"
+ENV SLIMERJSLAUNCHER="/opt/firefox/firefox"
+
+
+# TODO tomcat libs
+# TODO externalize context.xml
+# TODO externalize webapp dir
+# TODO externalize logs dir
+
+# TODO aws creds
+# TODO phantomjs
+# TODO slimer
+# TODO firefox

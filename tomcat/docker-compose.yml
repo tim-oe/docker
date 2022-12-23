@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  tomcat:
+    image: jdk8-tomcat7:latest
+    volumes:
+      - ./.docker/tomcat/logs:/opt/tomcat/logs
+      - ./.docker/tomcat/temp:/opt/tomcat/temp
+      - ./.docker/tomcat/work:/opt/tomcat/work
+      - ./.docker/tomcat/webapps:/opt/tomcat/webapps
+    ports:
+      - 8080:8080

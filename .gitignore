@@ -4,4 +4,8 @@
 .settings/
 .vscode
 .project
+.docker/
+bits
+
+
 
